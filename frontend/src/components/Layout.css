@@ -1,0 +1,205 @@
+header {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    background-color: #4a4e69;  
+    padding: 10px;
+    text-align: center;
+}
+
+header > * {
+    background-color: inherit;
+    border: none;  
+    text-decoration: none;
+    padding: 10px 20px;
+}
+
+header > :first-child {
+    margin-right: auto;
+}
+
+header > select,
+header > a {
+    color: #eee;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+header > a:hover {
+    color: white;
+}
+
+header > .user {
+    color: #ddd;
+    font-weight: normal;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px;
+    gap: 20px;
+}
+
+main h2 {
+    font-size: 48px;
+    text-align: center;
+}
+
+main h3 {
+    font-size: 40px;
+    text-align: center;
+}
+
+footer {
+    background-color: #4a4e69;
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}
+
+.btn-group {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.btn-group-transaction {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.card-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.card-pair {
+    display: flex;
+    gap: 8px;
+}
+
+.dashboard-card {
+    position: relative;
+    width: 250px;
+    height: 250px;
+}
+
+@media (max-width: 425px) {
+    header {
+        font-size: 12px
+    }
+    header > * {
+        padding: 10px 5px;
+        margin: 0px;
+    }
+
+    header > :first-child {
+        margin-right: auto;
+        margin-left: 10px;
+    }
+
+    main {
+        padding: 20px 10px;
+        gap: 10px;
+        overflow-y: auto !important;
+    }
+
+    main h2 {
+        font-size: 24px;
+    }
+
+    footer {
+        font-size: 10px;
+        height: 14px;
+        padding: 0px;
+    }
+
+    .btn-group {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+    }
+
+    .dashboard-card {
+        width: 150px;
+        height: 150px;
+    }
+
+    .profile-card {
+        width: 300px;
+    }
+    .profile-card button {
+        font-size: 10px;
+    }
+
+    .dashboard-title {
+        font-size: 18px !important;
+    }
+
+    .dashboard-btn {
+        font-size: 8px !important;
+    }
+
+    .box {
+        width: 300px !important;
+        max-height: 90vh !important;
+        overflow-y: auto !important;
+    }
+    
+    .table-box {
+        width: 300px !important;
+        height: 300px !important;
+    }
+
+    .filter-box {
+        width: 300px !important;
+        gap: 0px !important;
+    }
+
+    .filter-box > * {
+        width: 100px !important;
+    }
+
+    .table-head {
+        height: 10px !important;
+        padding-top: 0px !important;
+        padding-bottom: 0px !important;
+    }
+    
+    .delete-promotion {
+        width: 300px !important;
+    }
+
+    .delete-promotion > h6 {
+        font-size: 16px !important;
+    }
+
+    .delete-promotion > p {
+        font-size: 12px !important;
+    }
+
+    .delete-promotion-btn-box > button {
+        margin-top: 10px;
+        height: 24px !important;
+        font-size: 12px !important;
+    }
+
+    .btn-group-transaction {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+    }
+    .btn-group-transaction > button {
+        height: 24px;;
+        font-size: 10px;
+    }
+
+
+}

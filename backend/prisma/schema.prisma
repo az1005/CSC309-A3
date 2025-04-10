@@ -1,0 +1,134 @@
+datasource db {
+    provider = "sqlite"
+    url      = "file:./dev.db"
+}
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+enum Role {
+    regular
+    cashier
+    manager
+    superuser
+}
+
+model User {
+    id                Int              @id @default(autoincrement())
+    utorid            String           @unique
+    password          String?
+    name              String
+    email             String           @unique
+    birthday          String?
+    role              Role             @default(regular)
+    suspicious        Boolean          @default(false)
+    points            Int              @default(0)
+    createdAt         DateTime         @default(now())
+    lastLogin         DateTime?
+    verified          Boolean
+    avatarUrl         String?
+    // transactions
+    transactions      Transaction[]    @relation(name: "UserTransactions")
+    // events
+    eventsAsOrganizer Event[]          @relation("EventOrganizers")
+    eventsAsGuest     Event[]          @relation("EventGuests")
+    // promotions
+    userPromotions    UserPromotions[]
+    // reset token info
+    resetTokens       ResetToken[]
+}
+
+model ResetToken {
+    id        Int      @id @default(autoincrement())
+    token     String   @unique
+    userId    Int
+    user      User     @relation(fields: [userId], references: [id])
+    expiresAt DateTime
+    createdAt DateTime @default(now())
+    // use boolean isExpired to determine if this is the newest resetToken for this user
+    isExpired Boolean  @default(false)
+}
+
+enum TransactionType {
+    purchase
+    adjustment
+    transfer
+    redemption
+    event
+}
+
+model Transaction {
+    id                    Int                     @id @default(autoincrement())
+    utorid                String
+    owner                 User                    @relation(fields: [utorid], references: [utorid], name: "UserTransactions")
+    amount                Int
+    type                  TransactionType
+    // type specific values
+    spent                 Float?
+    redeemed              Int?
+    suspicious            Boolean?
+    relatedId             Int?
+    remark                String?
+    createdBy             String // utorid of the cashier (or higher role) that logged this transaction
+    // cases for relatedId:
+    // purchase: null
+    // adjustment => id of transaction being adjusted
+    // for sender:   transfer => recipient userId
+    // for receiver: transfer => sender userId
+    // redemption => id of cashier who proccessed, can be null if pending
+    // event => id of event
+    processed             Boolean?
+    transactionPromotions TransactionPromotions[]
+}
+
+model Event {
+    id            Int      @id @default(autoincrement())
+    name          String
+    description   String
+    location      String
+    startTime     DateTime
+    endTime       DateTime
+    capacity      Int?
+    pointsRemain  Int
+    pointsAwarded Int      @default(0)
+    published     Boolean  @default(false)
+    organizers    User[]   @relation("EventOrganizers")
+    guests        User[]   @relation("EventGuests")
+}
+
+model Promotion {
+    id                    Int                     @id @default(autoincrement())
+    name                  String
+    description           String
+    type                  String
+    startTime             DateTime
+    endTime               DateTime
+    minSpending           Float                   @default(0)
+    rate                  Float                   @default(0)
+    points                Int                     @default(0)
+    userPromotions        UserPromotions[]
+    transactionPromotions TransactionPromotions[]
+}
+
+// new model to track one time promotions applied by a user
+model UserPromotions {
+    id          Int       @id @default(autoincrement())
+    userId      Int
+    user        User      @relation(fields: [userId], references: [id])
+    promotionId Int
+    promotion   Promotion @relation(fields: [promotionId], references: [id], onDelete: Cascade)
+
+    @@unique([userId, promotionId])
+}
+
+// new model to track promotions applied in a transaction
+model TransactionPromotions {
+    id            Int         @id @default(autoincrement())
+    transactionId Int
+    transaction   Transaction @relation(fields: [transactionId], references: [id])
+    promotionId   Int
+    promotion     Promotion   @relation(fields: [promotionId], references: [id], onDelete: Cascade)
+
+    @@unique([transactionId, promotionId])
+}

@@ -1,0 +1,38 @@
+# This text file should explain how to deploy your website.
+
+# You should write detailed description on:
+
+# 1. All the packages you need to install
+# 2. How to configure various servers (e.g., Nginx, Apache, etc)
+
+Packages used in backend (see package.json):
+- prisma (for database)
+- bcrypt (for password hashing)
+- cors (for connecting to frontend)
+- dotenv (for .env)
+- express and express jwt
+- jsonwebtoken (for the token)
+- multer (handling form data + file uploads)
+- sqlite3 (for database)
+- uuid (for generating uuids)
+
+Packages used in frontend (see package.json):
+- react
+- mui/material (using Material UI for components and icons)
+- emotion/react (for styling)
+- qrcode.react (for QR codes)
+
+Setting Up Frontend and Backend Locally:
+Frontend: 
+- npm install
+- npm run dev
+
+Backend:
+- npm run clean
+- npm install
+- npx prisma generate
+- npx prisma db push
+- node prisma/seed.js
+- node server.js
+
+To Deploy Website: 
